@@ -1,0 +1,17 @@
+{
+  "name": "ai-landing-workshop",
+  "version": "0.1.0",
+  "description": "Landing oldal AI-jal, a Vikingo AI Landing Workshop skilljei: céges agy (kontextus), szövegíró, szöveg-emberiesítő és landing-építő.",
+  "author": {
+    "name": "Vikingo",
+    "url": "https://vikingo.hu"
+  },
+  "homepage": "https://vikingo.hu/ingyenes/ai-landing-workshop/",
+  "repository": "https://github.com/vikingokft/ai-landing-workshop",
+  "keywords": [
+    "landing oldal",
+    "szövegírás",
+    "marketing",
+    "magyar"
+  ]
+}

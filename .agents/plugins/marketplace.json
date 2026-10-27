@@ -1,0 +1,20 @@
+{
+  "name": "vikingo-ai-landing",
+  "interface": {
+    "displayName": "AI Landing Workshop"
+  },
+  "plugins": [
+    {
+      "name": "ai-landing-workshop",
+      "source": {
+        "source": "local",
+        "path": "./plugin"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
