@@ -53,4 +53,21 @@ Dolgozz egy saját mappában (például `landing-oldalam/`), mert a skillek oda 
 
 ## Frissítés
 
-Ha javítunk a skilleken, a GitHubról telepített plugin magától frissül (Claude-ban: **Check for updates**). Ha zip-fájlt töltöttél fel, töltsd fel újra az újat.
+A 2. alkalom előtt új skill érkezik (a weboldal-építő), és ha javítunk a skilleken, azt is így kapod meg.
+
+- **Claude:** a GitHubról telepített plugin magától frissül (vagy: **Check for updates**). Ha zip-fájlt töltöttél fel, töltsd le és töltsd fel újra az újat.
+- **Claude Code:**
+
+```bash
+claude plugin marketplace update vikingo-ai-landing
+claude plugin update ai-landing-workshop@vikingo-ai-landing
+```
+
+- **Codex:**
+
+```bash
+codex plugin marketplace upgrade vikingo-ai-landing
+codex plugin add ai-landing-workshop@vikingo-ai-landing
+```
+
+Utána indítsd újra a programot.
