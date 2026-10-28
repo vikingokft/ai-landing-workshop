@@ -7,6 +7,8 @@ ellenoriz.py - a landing-szovegiro kimenetének gyors ellenőrzése.
 
 Megnézi, hogy megvan-e mind a 15 blokk a helyes sorrendben, és kiírja a kimaradt blokkokat,
 a [KITÖLTENDŐ] helyeket és a tipográfiai hibákat (mondat közbeni gondolatjel, egyenes vagy angol idézőjel).
+Hibának veszi, ha a céges agy belső jelölése (például [[HIÁNYZIK]], (következtetés, erősítsd meg),
+(piaci hang, forrás: …)) bennmaradt a szövegben.
 """
 import re
 import sys
@@ -17,6 +19,13 @@ BLOKKOK = [
     'Előnyök', 'Bemutatkozás', 'Hitelességnövelő elemek: esettanulmány', 'Hogyan működik?',
     'Kinek igen, kinek nem', 'Hitelességnövelő elemek: logósor', 'CTA szakasz', 'GYIK',
 ]
+
+# A céges agy belső jelölései: az agy/-nak szólnak, az oldalra nem kerülhetnek (szabalyok.md 7.)
+BELSO_JELOLES = re.compile(
+    r'\[\[\s*HIÁNYZIK[^\]]*\]\]'
+    r'|\((?:következtetés|saját állítás|piaci hang|kockázatos állítás|kizárva|elmesélt|belső'
+    r'|kitalált|megerősítendő|feltételezés)\b[^)]*\)',
+    flags=re.I)
 
 
 def main(path):
@@ -49,6 +58,8 @@ def main(path):
                              ('"', 'egyenes idézőjel („…” kell; idézeten belül »…«, véleményben is, a szavakhoz nem nyúlva)', szoveg), ('“', 'angol idézőjel („…” kell; idézeten belül »…«)', szoveg)):
             if jel in hol:
                 hibak.append(f'{n}. {nev}: {mi} a szövegben.')
+        for m in BELSO_JELOLES.finditer(szoveg):
+            hibak.append(f'{n}. {nev}: belső jelölés maradt a szövegben: „{m.group(0)}” (ez az agy/-nak szól, töröld vagy írd át).')
     figyelj, cimsorok = [], []
     for (n, nev), resz in zip(fejek, reszek):
         fv = re.search(r'^\*\*Felvezető:\*\*\s*(.+?)\s*$', resz, flags=re.M)

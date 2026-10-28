@@ -2,7 +2,7 @@
 
 Ezek a skillek a Vikingo AI Landing Workshop eszközei. Segítségükkel az AI a saját vállalkozásod anyagaiból írja meg és építi fel a landing oldaladat, nem általános sablonszöveget ad.
 
-Verzió: 0.1.0
+Verzió: 0.1.1
 
 ## Mi van benne
 

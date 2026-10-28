@@ -76,7 +76,7 @@ python3 "<a skill gyökere>/scripts/ellenoriz.py" oldalak/<ajanlat>/szoveg.md
 
 ## 3. Emberiesítés
 
-Futtasd a **szöveg-emberiesítő** skillt a `szoveg.md`-n: cél-felület landing oldal, hang-forrás az `agy/ceg/markahang.md`, normál szigorúság, a futás-mappája az `oldalak/<ajanlat>/emberiesites/`. Mondd meg neki, hogy a véleményeket és a vásárló idézőjeles mondatait ne írja át, a `##` blokk-címsorokhoz, a `[KITÖLTENDŐ: …]` helyekhez és a `**Felvezető:**`, `**Gomb:**`, `**Űrlap:**`, `**Jelölőnégyzet:**` jelölésekhez ne nyúljon (a scanner ezeket félkövérként jelezheti: MARAD). A záró átírás a `szoveg.md`-be kerül vissza; külön végleges fájl nincs.
+Futtasd a **szöveg-emberiesítő** skillt a `szoveg.md`-n: cél-felület landing oldal, hang-forrás az `agy/ceg/markahang.md`, normál szigorúság, a futás-mappája az `oldalak/<ajanlat>/emberiesites/`. Mondd meg neki, hogy a véleményeket és a vásárló idézőjeles mondatait ne írja át, a `##` blokk-címsorokhoz, a `[KITÖLTENDŐ: …]` helyekhez és a `**Felvezető:**`, `**Gomb:**`, `**Űrlap:**`, `**Jelölőnégyzet:**` jelölésekhez ne nyúljon, és a scannert `--landing` kapcsolóval futtassa (így a listacímkéket és a GYIK-kérdéseket sem jelzi). A záró átírás a `szoveg.md`-be kerül vissza; külön végleges fájl nincs.
 
 Ha a szöveg-emberiesítő nincs telepítve, olvasd végig a szöveget a `szabalyok.md` 9. pontja szerint, és írd át, ami fordításnak hangzik.
 

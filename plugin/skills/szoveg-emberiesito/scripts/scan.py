@@ -418,6 +418,14 @@ INLINE_HEADER_RE = re.compile(
     r"(?:\*\*[^*\n]+:\*\*|\*\*[^*\n]+\*\*:|__[^_\n]+:__|__[^_\n]+__:)"
 )
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.*\S)\s*$")
+# A landing szövegíró formai jelölései (soreleji `**Gomb:** …` stb.): ezek nem
+# stílusjelek, a scanner sosem számolja őket félkövérnek.
+FORMAL_MARKER_RE = re.compile(r"^\s*\*\*(?:Felvezető|Gomb|Űrlap|Jelölőnégyzet|Kép):\*\*")
+# --landing módban a szövegíró listacímkéi (`- **Helyszín:** …`) és a félkövér
+# GYIK-kérdések (`- **Hol edzünk?**`) sem jelek: ezek az oldal szerkezetéhez tartoznak.
+LANDING_QUESTION_RE = re.compile(r"^\s*(?:[-*]|\d+[.)])\s+\*\*[^*\n]+\?\*\*\s*$")
+# --landing: önálló sorban álló félkövér oszlopcím (`**Neked szól, ha:**`)
+LANDING_COLUMN_RE = re.compile(r"^\s*\*\*[^*\n]+:\*\*\s*$")
 
 # Words that don't count toward "Title Case" (articles/conjunctions/prepositions).
 SMALL_WORDS = {
@@ -437,9 +445,15 @@ def find_phrase_hits(lines):
     return hits
 
 
-def find_regex_hits(lines):
+def find_regex_hits(lines, landing=False):
     """Return {section: [(lineno, sample, text), ...]} for char/structure tells."""
     hits = {}
+
+    def structural(line):
+        if FORMAL_MARKER_RE.match(line):
+            return True
+        return landing and bool(INLINE_HEADER_RE.search(line) or LANDING_QUESTION_RE.match(line)
+                                or LANDING_COLUMN_RE.match(line))
 
     def add(section, lineno, sample, text):
         hits.setdefault(section, []).append((lineno, sample, text))
@@ -456,9 +470,9 @@ def find_regex_hits(lines):
             add("§19 angol idézőjel (“…” a „…” helyett)", i, m.group(), line.strip())
         for m in EMOJI_RE.finditer(line):
             add("§18 emoji", i, m.group(), line.strip())
-        if INLINE_HEADER_RE.search(line):
+        if INLINE_HEADER_RE.search(line) and not landing:
             add("§16 beágyazott fejlécű lista", i, "- **Header:**", line.strip())
-        if BOLD_RE.search(line):
+        if BOLD_RE.search(line) and not structural(line):
             bold_lines.append((i, line.strip()))
         hm = HEADING_RE.match(line)
         if hm:
@@ -475,7 +489,7 @@ def find_regex_hits(lines):
 
     # Boldface only counts as a tell when it clusters (mechanical heuristic:
     # 3+ bold spans across the document). A single bold phrase is fine.
-    total_bold = sum(len(BOLD_RE.findall(l)) for l in lines)
+    total_bold = sum(len(BOLD_RE.findall(l)) for l in lines if not structural(l))
     if total_bold >= 3:
         for i, text in bold_lines:
             add("§15 félkövér-özön", i, "**...**", text)
@@ -483,11 +497,11 @@ def find_regex_hits(lines):
     return hits
 
 
-def scan_text(text):
+def scan_text(text, landing=False):
     """Run all three detectors on one document. Returns {section: [hits]}."""
     lines = mask_protected_regions(text).splitlines()
     hits = {}
-    for d in (find_regex_hits(lines), find_phrase_hits(lines),
+    for d in (find_regex_hits(lines, landing), find_phrase_hits(lines),
               find_template_hits(lines)):
         for section, items in d.items():
             hits.setdefault(section, []).extend(items)
@@ -564,7 +578,9 @@ def report_cross_file(per_file_hits):
 
 
 def main(argv):
-    paths = argv[1:]
+    # --landing: a landing szövegíró szoveg.md-je (a listacímkék és a GYIK-kérdések nem jelek)
+    landing = "--landing" in argv[1:]
+    paths = [a for a in argv[1:] if a != "--landing"]
     try:
         if not paths:
             # A `_utf8_kimenet()` a KIMENETET allitja at, a BEMENETET nem. Egy cp1252
@@ -589,7 +605,7 @@ def main(argv):
     any_hits = False
     per_file_hits = {}
     for name, text in docs.items():
-        hits = scan_text(text)
+        hits = scan_text(text, landing)
         per_file_hits[name] = hits
         label = f"[{name}] " if multi else ""
         if multi:

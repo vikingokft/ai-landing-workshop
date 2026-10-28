@@ -10,7 +10,7 @@
       "name": "ai-landing-workshop",
       "source": "./plugin",
       "description": "Landing oldal AI-jal, a Vikingo AI Landing Workshop skilljei: céges agy (kontextus), szövegíró, szöveg-emberiesítő és landing-építő.",
-      "version": "0.1.0"
+      "version": "0.1.1"
     }
   ]
 }
