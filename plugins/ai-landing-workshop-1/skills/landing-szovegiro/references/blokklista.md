@@ -97,12 +97,13 @@
 
 - **A dolga:** Egyetlen dologra kér: a következő lépésre, és itt van az űrlap is (L1-ben ez a jelentkezés helye; a Hero gombja ide visz). Szolgáltatásnál jelentkezés vagy időpontkérés, webinárnál és csalinál regisztráció, értékesítési oldalnál vásárlás. Fizetős eseménynél űrlap helyett vásárlási vagy jegygomb, több időpontnál időpontonként; alatta az ÁSZF és az adatkezelési tájékoztató linkje.
 - **Kapcsoló:** fő: Személyes megszólítás, Kis lépések elve. Hogyan: meghívja a következő lépésre; a gomb azt mondja, mit kap; kevés mező, nincs kockázat.
-- **Anyag:** a következő lépés, gombszöveg, az űrlap mezői, mi történik a jelentkezés után, adatkezelési tájékoztató (`ajanlat.md`, `ceg/uzleti-profil.md`)
+- **Anyag:** a következő lépés, gombszöveg, az űrlap mezői, mi történik a jelentkezés után, adatkezelési tájékoztató (`ajanlat.md`, `ceg/uzleti-profil.md`); a Limitek (valódi határidő, helyek száma), mert az L1-ben nincs külön Limitek blokk: ide kerülnek, a gomb fölé. Fizetős ajánlatnál az ÁSZF linkje is.
 - **Fogás:** Ismételd meg a fő ígéretet, és tedd könnyűvé a lépést: mennyi idő, mibe kerül, mi történik utána („24 órán belül visszahívlak”). Csak azt a mezőt kérd, amit tényleg használsz; a gomb alá kerüljön az adatkezelési mondat.
 
 ## 15. GYIK
 
 - **A dolga:** Az utolsó kérdéseket és a gyakorlati infókat (mire lesz szükség) válaszolja meg.
 - **Kapcsoló:** fő: Garancia és biztonságérzet; mellék: Egyszerűség, Átláthatóság. Hogyan: minden megválaszolt kérdés egy kockázattal kevesebb.
-- **Anyag:** GYIK-jelöltek; gyakorlati infók (mire lesz szükség) (`ajanlat.md`)
+- **Anyag:** GYIK-jelöltek; gyakorlati infók (mire lesz szükség) (`ajanlat.md`). Fizetős ajánlatnál kötelező: a fizetés, a lemondás és az elállás.
 - **Fogás:** A valódi kérdéseket gyűjtsd (e-mail, komment, ügyfélszolgálat), és rövid, egyenes választ adj.
+- **Forma:** lista. Minden kérdés egy `- **Kérdés?**` sor, a válasz alatta, két szóközzel behúzva. Az emberiesítő `--landing` módja csak így ismeri fel a kérdést; önálló félkövér sorba írva hibának jelzi.

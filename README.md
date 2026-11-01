@@ -6,7 +6,7 @@ Ezek a skillek a Vikingo AI Landing Workshop eszközei. Segítségükkel az AI a
 
 | Plugin | Mikor | Mi van benne |
 |---|---|---|
-| `ai-landing-workshop-1` (verzió: 0.2.0) | az 1. alkalomra | céges agy, szövegíró, emberiesítő |
+| `ai-landing-workshop-1` (verzió: 0.2.1) | az 1. alkalomra | céges agy, szövegíró, emberiesítő |
 
 A 2. alkalom skilljei külön pluginban érkeznek, a 2. alkalom előtt.
 
