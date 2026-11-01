@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "ai-landing-workshop",
+      "name": "ai-landing-workshop-1",
       "source": {
         "source": "local",
-        "path": "./plugin"
+        "path": "./plugins/ai-landing-workshop-1"
       },
       "policy": {
         "installation": "AVAILABLE",

@@ -1,16 +1,16 @@
 {
   "name": "vikingo-ai-landing",
-  "description": "Landing oldal AI-jal, a Vikingo AI Landing Workshop skilljei: céges agy (kontextus), szövegíró, szöveg-emberiesítő és landing-építő.",
+  "description": "A Vikingo AI Landing Workshop skilljei: landing oldal AI-jal, a céges agytól a kész HTML-ig.",
   "owner": {
     "name": "Vikingo",
     "url": "https://vikingo.hu"
   },
   "plugins": [
     {
-      "name": "ai-landing-workshop",
-      "source": "./plugin",
-      "description": "Landing oldal AI-jal, a Vikingo AI Landing Workshop skilljei: céges agy (kontextus), szövegíró, szöveg-emberiesítő és landing-építő.",
-      "version": "0.1.1"
+      "name": "ai-landing-workshop-1",
+      "source": "./plugins/ai-landing-workshop-1",
+      "description": "Az AI Landing Workshop 1. alkalmának skilljei: céges agy (kontextus), landing-szövegíró és szöveg-emberiesítő.",
+      "version": "0.2.0"
     }
   ]
 }
