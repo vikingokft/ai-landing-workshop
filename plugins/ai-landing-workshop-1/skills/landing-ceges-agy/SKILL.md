@@ -18,7 +18,7 @@ agy/
 │   ├── markahang.md             tegezés vagy magázás, stílus, kerülendő szavak, 3 saját szövegminta
 │   ├── bizonyitekok.md          vélemények, számok, logók, díjak, esettanulmányok: forrással
 │   ├── arculat.md               színek, betűk, logó, fotók
-│   └── design-rendszer/         ← később: a landing oldal építésekor ide kerül a design-rendszer
+│   └── design-rendszer/         ← később: a design-rendszer skill írja ide
 └── ajanlatok/
     └── <ajanlat>/               ← ajánlatonként egy mappa, csak ami ennél az ajánlatnál más
         ├── _attekintes.md       oldaltípus, recept, honnan jön a látogató és hova megy, kapcsolódó ajánlatok; hiánylista
@@ -180,4 +180,5 @@ Ha valami változik („új ajánlatom van”, „emeltem az árat”, „új id
 
 - **landing-szövegíró:** ebből az `agy/` mappából dolgozik, és a recept szakaszai szerint megírja a `szoveg.md`-t.
 - **szöveg-emberiesítő:** a kész szöveget nézi át.
-- **landing-építő:** a szövegből HTML oldalt épít; az `arculat.md`-t és a `design-rendszer/` mappát használja, és a design-rendszert is ide menti.
+- **design-rendszer** (nem kötelező): az `arculat.md`-ből és a `forrasok/` anyagaiból elkészíti a design-rendszert, és a `design-rendszer/` mappába menti.
+- **landing-építő:** a szövegből HTML oldalt épít, az `arculat.md` elemeivel és egy design-inspiráció alapján.

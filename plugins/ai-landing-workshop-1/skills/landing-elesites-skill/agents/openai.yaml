@@ -1,0 +1,4 @@
+interface:
+  display_name: "landing-elesites-skill"
+  short_description: "FTP- és WordPress-csomag kész landing oldalakhoz"
+  default_prompt: "Használd a $landing-elesites-skill skillt: a kész landing oldalból készíts FTP-re feltölthető és WordPress HTML modulba illeszthető átadási csomagot."

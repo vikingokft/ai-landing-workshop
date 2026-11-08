@@ -2,7 +2,7 @@
 
 frissítve: ÉÉÉÉ-HH-NN
 
-> Hogyan nézel ki. Ez a landing oldal építésének alapja. Ha nincs még kiforrott arculatod, ami van, az is elég: a landing oldal építésekor ebből lesz a design-rendszer a `design-rendszer/` mappában.
+> Hogyan nézel ki. Ez a landing oldal építésének alapja. Ha nincs még kiforrott arculatod, ami van, az is elég: a landing-építő ezeket az elemeket megtartja, a többit egy tetsző oldalból (design-inspirációból) veszi.
 
 ## Színek
 
@@ -34,4 +34,4 @@ Két-három szó arról, milyen hatást akarsz kelteni (például: „letisztult
 
 ## Design-rendszer
 
-A landing oldal építésekor itt jön létre, a `design-rendszer/` mappában. Addig üres.
+Nem kötelező. Ha a design-rendszer skillel készül, a `design-rendszer/` mappába kerül.

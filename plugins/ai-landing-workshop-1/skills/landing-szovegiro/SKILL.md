@@ -124,4 +124,5 @@ Alapból egy változatot írsz. Csak akkor írsz többet, ha kérik.
 
 - **landing-ceges-agy:** felépíti az `agy/` mappát, amiből ez a skill dolgozik.
 - **szoveg-emberiesito:** a 3. lépésben átnézi a szöveget.
-- **landing-építő** (2. alkalom): a `szoveg.md`-ből és az `arculat.md`-ből épít HTML oldalt.
+- **design-rendszer** (2. alkalom, nem kötelező): az `arculat.md`-ből és a meglévő anyagokból elkészíti a design-rendszert (`agy/ceg/design-rendszer/`).
+- **landing-építő** (2. alkalom): a `szoveg.md`-ből, a meglévő arculatból és egy design-inspirációból épít HTML oldalt.

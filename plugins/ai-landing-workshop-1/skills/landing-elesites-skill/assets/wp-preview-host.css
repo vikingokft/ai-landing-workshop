@@ -1,0 +1,34 @@
+/* Local test fixture only. Never include in production exports.
+   Intentionally loaded AFTER the landing CSS. No kit number or landing ID is assumed. */
+body.wp-theme-simulation { margin: 0; background: #e9edf2; color: #27313a; font-family: Arial, sans-serif; }
+.wp-theme-simulation .entry-content { max-width: none; }
+.wp-theme-simulation .entry-content :is(h1,h2,h3,h4,h5,h6),
+[class*="elementor-kit-"] :is(h1,h2,h3,h4,h5,h6) { color: #20262c; }
+.wp-theme-simulation .entry-content p { color: #303a44; }
+.wp-theme-simulation .entry-content a,
+[class*="elementor-kit-"] a { color: #1455a0; }
+.wp-theme-simulation .entry-content a:visited { color: #6b2f96; }
+.wp-theme-simulation .entry-content a:hover,
+[class*="elementor-kit-"] a:hover { color: #bb4800; }
+.wp-theme-simulation .entry-content a:focus-visible { color: #9c3500; outline: 3px solid #b54d00; }
+.wp-theme-simulation .entry-content :is(button,.button,input[type="submit"]),
+[class*="elementor-kit-"] :is(button,.button,input[type="submit"]) {
+  color: #fff; background-color: #1455a0; border-color: #0e3c72;
+}
+.wp-theme-simulation .entry-content :is(button,.button,input[type="submit"]):hover {
+  color: #fff; background-color: #0e3c72; border-color: #bb4800;
+}
+.wp-theme-simulation .entry-content :is(button,.button,input[type="submit"]):focus-visible {
+  color: #fff; background-color: #0e3c72; outline: 3px solid #b54d00;
+}
+.wp-theme-simulation .entry-content :is(button,input,select,textarea):disabled {
+  color: #696969; background-color: #dedede; border-color: #aaa;
+}
+.wp-theme-simulation .entry-content :is(label,legend) { color: #20262c; }
+.wp-theme-simulation .entry-content :is(input:not([type="submit"]),textarea,select) {
+  color: #20262c; background-color: #fff; border-color: #8193a3; caret-color: #1455a0;
+}
+.wp-theme-simulation .entry-content :is(input,textarea)::placeholder { color: #556472; opacity: 1; }
+.wp-theme-simulation .entry-content :is(input,textarea,select):focus {
+  color: #111; background-color: #f1f5fb; border-color: #bb4800; outline-color: #b54d00;
+}
