@@ -14,8 +14,8 @@ Az oldal egyetlen HTML-fájl, ami három helyen is működik: magában egy tárh
 <meta name="description" content="<!-- 1-2 mondat a hero szövegéből, legfeljebb kb. 155 karakter; ha rövidíteni kell, rövidíts, és az átadásban említsd -->">
 <meta property="og:title" content="...">
 <meta property="og:description" content="...">
-<meta property="og:image" content="kepek/og.jpg"><!-- helyőrző: 1200×630 kép -->
-<link rel="icon" href="kepek/favicon.svg" type="image/svg+xml">
+<meta property="og:image" content="kepek/og.jpg"><!-- kötelező: 1200×630 kép, lásd „Megosztási kép” -->
+<link rel="icon" href="kepek/favicon.svg" type="image/svg+xml"><!-- kötelező: ha nincs favicon, rajzold meg, lásd „Képek” -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="<!-- a Google Fonts link a ténylegesen használt betűkkel és súlyokkal (design-rendszernél a tokens.css GOOGLE-FONTS sora) -->">
@@ -44,7 +44,7 @@ Az oldal egyetlen HTML-fájl, ami három helyen is működik: magában egy tárh
 - **Mobil először:** az alap CSS a telefonra szól, a szélesebb képernyőt `@media (min-width: ...)` adja. A betűméretekhez `clamp()`-et használhatsz (a tokenekben már így vannak).
 - **Specificitás:** vigyázz, hogy a szakaszok általános szabályai (például `.lp section{padding:...}`) ne írják felül a különlegeseket. A szakaszonkénti térközt a szakasz saját osztályán add meg.
 - **Fókusz:** `.lp a:focus-visible, .lp button:focus-visible, .lp input:focus-visible{outline:2px solid currentColor; outline-offset:3px}` (vagy a fő szín, ha elég a kontraszt).
-- **Mozgás:** ha van, a `@media (prefers-reduced-motion: reduce)` alatt kapcsold ki.
+- **Mozgás:** ha van, a `@media (prefers-reduced-motion: reduce)` alatt kapcsold ki. **A tartalom alapból látható:** beúszó (reveal) animációnál ne a szakasz alapállapota legyen `opacity:0`, hanem egy szkript tegyen az `.lp`-re egy osztályt (`.lp-js`), és csak az indítsa a beúszást: `.lp.lp-js .lp-beuszo{opacity:0;transform:translateY(16px)}`, `.lp.lp-js .lp-beuszo.latszik{opacity:1;transform:none}`. Ha a szkript nem fut le, késik, vagy a WordPress kiszűri, így sem marad üres szakasz (a 2026-11-es workshop három beküldött oldalán ez történt).
 - **Képernyőmagasság:** vh-alapú magasságot mindig korlátozz: `min-height:min(100vh, 900px)`. A képernyőkép magas ablakban készül, ahol a korlát nélküli `vh` óriási üres részt ad.
 
 ## A szöveg jelölései
@@ -79,8 +79,9 @@ Egy oldal, egy cél: menü nincs. Fent csak a logó (`kepek/logo.svg`; ha nincs 
 
 - A változat mappájában `kepek/`: ide másold a logó fájljait (`logo.svg`, `logo-feher.svg`, `logo-sotet.svg`, `favicon.svg`, ha vannak) és a felhasznált fotókat (rövid, ékezet nélküli fájlnévvel). Az oldal relatív úttal hivatkozik rájuk (`kepek/portre.jpg`).
 - Minden `<img>`-nek van `alt`, `width` és `height` attribútuma; a hero alatti képek `loading="lazy"`.
-- Képoptimalizálás nem kell. Ha egy fotó a fájl adatai (EXIF) szerint el van forgatva, a `kepek/`-be helyes állású másolat kerüljön; az eredetihez ne nyúlj.
-- **Megosztási kép (`og.jpg`):** ha van fotó, vágj ki belőle egy 1200×630-as képet (a portréból vagy a legjellemzőbb képből); ha nincs fotó, hagyd el az `og:image` sort.
+- **Képméret:** egy kép legfeljebb kb. 300 kB, az oldal képei együtt 2,5 MB alatt. A generált és a telefonos fotók 2–5 MB-osak: a véglegesítés előtt futtasd a `landing.py kepek` parancsot (SKILL.md 7. lépés), ami WebP-re vagy JPEG-re alakítja és átméretezi őket, és a hivatkozást is átírja. Ha egy fotó a fájl adatai (EXIF) szerint el van forgatva, a `kepek/`-be helyes állású másolat kerüljön; az eredetihez ne nyúlj.
+- **Favicon:** ha a márkának van favicon- vagy logófájlja, abból; ha nincs, rajzold meg `kepek/favicon.svg`-ként: a fő szín kör vagy lekerekített négyzet, benne a vállalkozás kezdőbetűje a címsorbetűvel (64×64-es viewBox).
+- **Megosztási kép (`og.jpg`):** kötelező, mert nélküle Facebookon, Messengerben és e-mailben üres doboz jelenik meg a link helyén. Ha van fotó, vágj ki belőle egy 1200×630-as képet (a portréból vagy a legjellemzőbb képből). Ha nincs fotó, készíts egy egyszerű 1200×630-as HTML-lapot (a márka háttérszíne, a logó vagy a név, alatta a hero címe), fotózd le a `kepernyokep` paranccsal, és tedd `kepek/og.jpg`-ként a helyére. Éles oldalon az `og:image` teljes címmel (https://…/kepek/og.jpg) működik a legbiztosabban: ha a végleges cím ismert, írd be úgy.
 - **Ha nincs fotó:** vagy kép nélkül építed a blokkot (ha így is erős), vagy a kép helye megtervezett helyőrző: a paletta színeiből kevert felület, a kép arányában, benne egy rövid, halvány leírással, mi kerül oda („Fotó: rólad munka közben, álló kép”). Szürke dobozt ne tegyél. Generált embert vagy kitalált terméket ne tegyél be.
 - **Stockfotó:** magadtól ne tölts le. Ha a felhasználó kéri, javasolj képhelyenként egy-két keresőszót egy ingyenes stockoldalhoz (például Unsplash, Pexels); a választott képet ő tölti le a `forrasok/kepek/` mappába, és utána beépíted.
 

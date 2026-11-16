@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-landing.py - a landing-építő skill segédprogramja. Hat parancs:
+landing.py - a landing-építő skill segédprogramja. Hét parancs:
 
   python3 landing.py ellenoriz index.html [--szoveg szoveg.md] [--tokens tokens.css]
-      Gépi ellenőrzés: szerkezet (lang, title, description, egy H1, alt szövegek), hogy minden
-      CSS-szabály a .lp burkolóra szűkül-e, külső források, űrlap és köszönőoldal, fókusz,
-      mozgás. --szoveg: a címek, gombok és bekezdések szó szerint ott vannak-e.
+      Gépi ellenőrzés: szerkezet (lang, title, description, megosztási kép, favicon, egy H1, alt
+      szövegek), hogy minden CSS-szabály a .lp burkolóra szűkül-e, külső források, űrlap és
+      köszönőoldal, fókusz, mozgás és alapból rejtett tartalom, képméret, üres # linkek, a látható
+      szövegben maradt belső jegyzet, gondolatjel és angol idézőjel. --szoveg: a címek, gombok és bekezdések szó szerint ott vannak-e.
       --tokens: a márka színei és betűi változatlanok-e, és van-e szín a tokeneken kívül.
 
   python3 landing.py kepernyokep index.html --ki kepernyokepek/
@@ -14,6 +15,10 @@ landing.py - a landing-építő skill segédprogramja. Hat parancs:
       mobil (390 px) méretben, külön a hero-ról és az egész oldalról. A mozgást kikapcsolja
       (prefers-reduced-motion), hogy a beúszó szakaszok is látsszanak. Az egész oldalas képet
       az oldal aljánál levágja, és szakasznyi szeletekre bontja (-01.png, -02.png …), ha van Pillow.
+
+  python3 landing.py kepek index.html [--max 2000] [--hatar 300]
+      A 300 kB feletti fotókat WebP-re (Pillow) vagy JPEG-re (macOS sips) alakítja és átméretezi,
+      és a HTML-ben (meg a koszi.html-ben) átírja a hivatkozást. Az eredeti fájlok megmaradnak.
 
   python3 landing.py wp index.html -o wp-beillesztes.html [--mediatar URL] [--koszi-url URL]
       A WordPress-változat: a betűk linkje, a <style> és a <div class="lp"> tartalma, <html>,
@@ -197,6 +202,13 @@ def cmd_ellenoriz(args):
     if not args.koszi:
         (ok if any(m.get("name") == "description" and m.get("content", "").strip() for m in metak) else hiba).append("meta description")
         (ok if any(m.get("property") == "og:title" for m in metak) else figy).append("og:title (megosztáskor ez a cím)")
+        # 2026-11-16: a workshop beküldött oldalainak 12/20-án nem volt OG-kép, 6-on favicon
+        (ok if any(m.get("property") == "og:image" and m.get("content", "").strip() for m in metak) else hiba).append(
+            "og:image (megosztáskor ez a kép; nélküle Facebookon és Messengerben üres doboz lesz; "
+            "ha nincs fotó, a logó a márka színén is jó, technikai.md „Megosztási kép”)")
+        (ok if any(m.get("property") == "og:description" for m in metak) else figy).append("og:description")
+    ikon = [a for t, a in b.elemek if t == "link" and "icon" in (a.get("rel") or "").lower().split()]
+    (ok if ikon else hiba).append('favicon (<link rel="icon">), különben a böngészőfülön üres ikon és 404 a konzolban')
     h1 = len(tag_ok("h1"))
     (ok if h1 == 1 else hiba).append(f"pontosan egy <h1> (most: {h1})")
     lp = [a for t, a in b.elemek if t == "div" and "lp" in a.get("class", "").split()]
@@ -208,6 +220,35 @@ def cmd_ellenoriz(args):
     (hiba if alt_nelkul else ok).append("alt szöveg minden képen" + (f" (hiányzik: {', '.join(alt_nelkul[:3])})" if alt_nelkul else ""))
     if meret_nelkul:
         figy.append(f"width és height nélküli kép (betöltéskor ugrál az oldal): {', '.join(meret_nelkul[:3])}")
+
+    # képek fájlmérete (a generált képek 2 MB-os PNG-k; a beküldött oldalak közül 7 volt 3 MB felett)
+    helyi = set()
+    for t, a in b.elemek:
+        for kulcs in ("src", "href", "content"):
+            v = a.get(kulcs) or ""
+            if t in ("img", "source", "link", "meta") and re.search(r"\.(png|jpe?g|webp|avif|gif)(\?|$)", v, re.I) and not re.match(r"https?://|data:", v):
+                helyi.add(v.split("?")[0])
+        for v in re.findall(r"([^\s,]+\.(?:png|jpe?g|webp|avif))\s+\d+[wx]", a.get("srcset") or "", re.I):
+            if not re.match(r"https?://", v):
+                helyi.add(v)
+    for v in re.findall(r"url\(['\"]?([^'\")]+\.(?:png|jpe?g|webp|avif))", fo_css_nyers := "\n".join(s for _, s in b.stilusok), re.I):
+        if not re.match(r"https?://|data:", v):
+            helyi.add(v)
+    nehez, ossz = [], 0
+    for v in sorted(helyi):
+        f = (p.parent / v).resolve()
+        if f.is_file():
+            m = f.stat().st_size
+            ossz += m
+            if m > 400_000:
+                nehez.append(f"{v} ({m // 1024} kB)")
+    if nehez:
+        hiba.append(f"{len(nehez)} kép 400 kB felett (mobilon lassú, és a Google is bünteti): {', '.join(nehez[:4])}; "
+                    "alakítsd WebP-re vagy JPEG-re, a megjelenési szélesség kétszeresére, legfeljebb 300 kB-ra")
+    elif ossz:
+        ok.append(f"a képek mérete rendben ({ossz // 1024} kB összesen)")
+    if ossz > 2_500_000:
+        figy.append(f"az oldal képei összesen {ossz // 1024} kB: 2,5 MB alatt maradj")
 
     # külső források
     kulso = []
@@ -243,6 +284,13 @@ def cmd_ellenoriz(args):
         figy.append(f"{len(apro)} helyen 16 px alatti betűméret: a törzsszöveg legalább 17 px legyen, apró csak címke és jogi szöveg")
     if not re.search(r"background(?:-color)?\s*:[^;]*(--ds-sotet|--ds-elsodleges|--ds-sav-hatter|--lp-szin|color-mix)", fo_css):
         figy.append("egyik szakasznak sincs színes vagy sötét háttere: az oldal valószínűleg egyforma fehér és halvány csíkok sora")
+    # beúszó animáció, ami alapból elrejti a tartalmat (3 beküldött oldalon üres szakaszokat okozott)
+    rejtett = [e for e, t in szabalyok if re.search(r"opacity\s*:\s*0(?:\.0+)?\s*(?:;|$|!)", t)
+               and not re.search(r"js|motion|anim|is-|ready|loaded|:hover|:focus|::|placeholder", e, re.I)]
+    if rejtett:
+        hiba.append(f"{len(rejtett)} szabály alapból láthatatlanná teszi a tartalmat (opacity: 0), például {rejtett[0][:60]}: "
+                    "ha a szkript nem fut le vagy késik, üres szakaszok maradnak. A tartalom alapból látsszon, a beúszást "
+                    "csak egy szkript által rárakott osztály indítsa (például .lp.lp-js .beuszo), prefers-reduced-motion mellett kikapcsolva")
     nagybetus = len(re.findall(r"text-transform\s*:\s*uppercase", fo_css))
     if nagybetus > 3:
         figy.append(f"{nagybetus} helyen nagybetűsítés: a gombon márka, de minden cím fölötti felvezetőnél sablonjel")
@@ -295,6 +343,29 @@ def cmd_ellenoriz(args):
     lathato = normal("".join(b.szoveg))
     if "KITÖLTENDŐ" in forras:
         figy.append(f"{forras.count('KITÖLTENDŐ')} [KITÖLTENDŐ] hely maradt: feltöltés előtt ki kell tölteni")
+    # látható belső jegyzet, helykitöltő (a beküldött oldalakon: „[KITÖLTENDŐ: …]”, „éles használat előtt…”, „pótolandó”)
+    jegyzet = re.findall(r"[^.!?]*(?:élesítés előtt|éles használat előtt|élesítéskor|pótolandó|kitöltendő|kitöldendő|"
+                         r"véglegesíteni kell|ide jön|helyőrző|placeholder|lorem ipsum|\bTODO\b|example\.(?:com|hu)|"
+                         r"külön tájékoztatás szükséges)[^.!?]*[.!?]?", lathato, re.I)
+    jegyzet = [j.strip() for j in jegyzet if "KITÖLTENDŐ" not in j]
+    if jegyzet:
+        hiba.append(f"belső jegyzetnek vagy helykitöltőnek látszó mondat a látható szövegben ({len(jegyzet)}): „{jegyzet[0][:90]}”; "
+                    "ez az AI-nak vagy a készítőnek szól, nem a látogatónak: töröld, a teendő az átadásba kerüljön")
+    ures_link = [a for t, a in b.elemek if t == "a" and (a.get("href") is None or a.get("href", "").strip() in ("", "#"))]
+    if ures_link:
+        hiba.append(f"{len(ures_link)} üres vagy # link: minden gomb és link vigyen valahova (űrlap, fizetés, adatkezelési tájékoztató, mailto:)")
+    http_link = [a.get("href") for t, a in b.elemek if t in ("a", "form") and re.match(r"http://", a.get("href") or a.get("action") or "")]
+    if http_link:
+        figy.append(f"titkosítatlan http:// cím: {http_link[0][:60]}; a böngésző „nem biztonságos” jelzést ad, https kell")
+    cim_szoveg = normal(" ".join(re.findall(r"<title[^>]*>(.*?)</title>", forras, re.S | re.I)))
+    torzs_szoveg = lathato.replace(cim_szoveg, " ") if cim_szoveg else lathato
+    gondolatjel = re.findall(r"\S+\s[–—]\s\S+", torzs_szoveg)
+    gondolatjel = [g for g in gondolatjel if not re.match(r"\d", g.split()[-1]) and not re.search(r"\d\.?\s[–—]\s", g)]  # tartomány: 9–12, jan. 14. – febr. 18.
+    if gondolatjel:
+        figy.append(f"{len(gondolatjel)} mondat közbeni gondolatjel a kész oldalon (például „{gondolatjel[0]}”): vessző, pont vagy kettőspont kell")
+    angol = re.findall(r"[\"“”][^\"“”„]{2,60}[\"“”]", lathato)
+    if angol:
+        figy.append(f"angol vagy egyenes idézőjel a látható szövegben (például {angol[0][:40]}): „magyar idézőjel” kell")
     if EMOJI.search(lathato):
         figy.append("emoji a szövegben: ikonnak ne emoji legyen")
     if re.search(r"→|->", lathato):
@@ -312,6 +383,13 @@ def cmd_ellenoriz(args):
                         "; ".join(f"„{t[:60]}”" for t in puha[:4]))
         else:
             ok.append("minden bekezdés szó szerint")
+        # idézet (vélemény) az oldalon, ami nincs a szövegben: kitalált vélemény gyanúja
+        md_szoveg = normal(Path(args.szoveg).read_text(encoding="utf-8").replace("**", ""))
+        idezetek = [normal(i) for i in re.findall(r"„([^”]{15,})”", lathato)]
+        idegen = [i for i in idezetek if i[:40] not in md_szoveg]
+        if idegen:
+            hiba.append(f"{len(idegen)} idézet az oldalon, ami nincs a szoveg.md-ben (kitalált vélemény?): „{idegen[0][:60]}”; "
+                        "vélemény, név, szám csak a szövegből jöhet")
 
     for s in ok:
         print(f"✓ {s}")
@@ -415,6 +493,52 @@ def szeletel(ki, nev):
         for i in range(db):
             im.crop((0, i * szelet, w, min(vege, (i + 1) * szelet))).save(ki / f"{nev}-{cimke}-{i + 1:02}.png")
         print(f"✓ {f.name}: {vege} px magas, {db} szeletben ({nev}-{cimke}-01.png …)")
+
+
+# ---------------------------------------------------------------- képtömörítés
+
+def cmd_kepek(args):
+    """A 300 kB feletti fotókat WebP-re (Pillow) vagy JPEG-re (macOS sips) alakítja, legfeljebb --max px szélesre,
+    és a HTML-ben (és a koszi.html-ben, ha mellette van) átírja a hivatkozást. Az eredeti fájl megmarad."""
+    p = Path(args.html)
+    forras = p.read_text(encoding="utf-8")
+    try:
+        from PIL import Image, ImageOps
+    except ImportError:
+        Image = None
+    sips = shutil.which("sips")
+    if not Image and not sips:
+        raise SystemExit("Nincs képkezelő: telepítsd a Pillow-t (pip install Pillow), vagy macOS-en a beépített sips is elég.")
+    hivatkozasok = sorted(set(re.findall(r"""["'(\s]((?:\./)?[\w./-]+\.(?:png|jpe?g))(?=["')\s?])""", forras, re.I)))
+    csere = {}
+    for v in hivatkozasok:
+        f = (p.parent / v).resolve()
+        if not f.is_file() or f.stat().st_size <= args.hatar * 1024 or "/ikonok/" in v or "logo" in f.name.lower():
+            continue
+        if Image:
+            uj = f.with_suffix(".webp")
+            with Image.open(f) as kep:
+                kep = ImageOps.exif_transpose(kep)
+                if kep.width > args.max:
+                    kep = kep.resize((args.max, round(kep.height * args.max / kep.width)), Image.LANCZOS)
+                kep.save(uj, "WEBP", quality=args.minoseg, method=6)
+        else:
+            uj = f.with_name(f.stem + "-web.jpg")
+            subprocess.run([sips, "-s", "format", "jpeg", "-s", "formatOptions", str(args.minoseg), "-Z", str(args.max),
+                            str(f), "--out", str(uj)], check=True, capture_output=True)
+        regi_kb, uj_kb = f.stat().st_size // 1024, uj.stat().st_size // 1024
+        csere[v] = str(Path(v).with_name(uj.name))
+        print(f"{v}: {regi_kb} kB → {csere[v]}: {uj_kb} kB")
+    if not csere:
+        print(f"nincs {args.hatar} kB feletti fotó")
+        return
+    for h in [p] + ([p.parent / "koszi.html"] if (p.parent / "koszi.html").is_file() else []):
+        t = h.read_text(encoding="utf-8")
+        for regi, uj in csere.items():
+            t = re.sub(r"(?<=[\"'(\s])" + re.escape(regi) + r"(?=[\"')\s?])", uj, t)
+        h.write_text(t, encoding="utf-8")
+    print(f"\n{len(csere)} kép cserélve a HTML-ben. Az eredetiek a helyükön maradtak; a feltöltéshez csak az újak kellenek.")
+    print("A képernyőképpel nézd meg újra, hogy a képek élesek-e.")
 
 
 # ---------------------------------------------------------------- WordPress
@@ -740,6 +864,13 @@ def main():
     k.add_argument("--nev", help="a fájlnevek eleje (alapból a változat mappájának neve)")
     k.add_argument("--magassag", type=int, default=16000, help="az asztali egész oldalas kép legnagyobb magassága")
     k.set_defaults(fn=cmd_kepernyokep)
+
+    kp = sub.add_parser("kepek")
+    kp.add_argument("html")
+    kp.add_argument("--max", type=int, default=2000, help="legnagyobb szélesség pixelben (alapból 2000, a megjelenés kétszerese)")
+    kp.add_argument("--hatar", type=int, default=300, help="e fölött tömörít (kB, alapból 300)")
+    kp.add_argument("--minoseg", type=int, default=80, help="WebP/JPEG minőség (alapból 80)")
+    kp.set_defaults(fn=cmd_kepek)
 
     w = sub.add_parser("wp")
     w.add_argument("html")

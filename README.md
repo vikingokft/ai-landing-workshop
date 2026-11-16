@@ -4,7 +4,7 @@ Ezek a skillek a Vikingo AI Landing Workshop eszközei. Segítségükkel az AI a
 
 ## Egy plugin, minden skill
 
-Minden skill az `ai-landing-workshop-1` pluginban van (verzió: 0.3.0). Ha az 1. alkalom után már telepítetted, csak frissítsd (lásd lent a **Frissítés** részt), és megkapod a 2. alkalom skilljeit is.
+Minden skill az `ai-landing-workshop-1` pluginban van (verzió: 0.3.1). Ha az 1. alkalom után már telepítetted, csak frissítsd (lásd lent a **Frissítés** részt), és megkapod a 2. alkalom skilljeit is.
 
 ## Mi van benne
 

@@ -70,7 +70,7 @@
 - **A dolga:** Bizonyítékok gyűjtőhelye: logók, tanúsítványok és díjak, számok, mérhető eredmények, referenciák és esettanulmányok. Szórva is megjelenhet. Itt az esettanulmány (egy ügyfél története).
 - **Kapcsoló:** fő: Tekintély, Bizonyíték; mellék: Társadalmi bizonyíték. Hogyan: logók, díjak: Tekintély · számok, mérhető eredmények: Bizonyíték · esettanulmány: Bizonyíték és Társadalmi bizonyíték.
 - **Anyag:** számok, logók, díjak, eredmények, esettanulmányok, forrással (`ceg/bizonyitekok.md`)
-- **Fogás:** Csak valódi, ellenőrizhető számot írj. A kerek szám („1000+”) gyengébb, mint a pontos („1 284”).
+- **Fogás:** Csak valódi számot írj, kitaláltat soha. A kerek szám („1000+”) gyengébb, mint a pontos („1 284”). A `(saját állítás)` jelölésű szám is valódi adat, és használd: a szakértő szájából, első személyben, a forrásával („a tavaszi próbacsoportban 12-ből 9-en végigcsinálták”), ne általános tényként.
 
 ## 11. Hogyan működik?
 
@@ -91,7 +91,7 @@
 - **A dolga:** Bizonyítékok gyűjtőhelye: logók, tanúsítványok és díjak, számok, mérhető eredmények, referenciák és esettanulmányok. Szórva is megjelenhet. Itt a logók, megjelenések, díjak, számok rövid sora.
 - **Kapcsoló:** fő: Tekintély, Bizonyíték; mellék: Társadalmi bizonyíték. Hogyan: logók, díjak: Tekintély · számok, mérhető eredmények: Bizonyíték · esettanulmány: Bizonyíték és Társadalmi bizonyíték.
 - **Anyag:** számok, logók, díjak, eredmények, esettanulmányok, forrással (`ceg/bizonyitekok.md`)
-- **Fogás:** Csak valódi, ellenőrizhető számot írj. A kerek szám („1000+”) gyengébb, mint a pontos („1 284”).
+- **Fogás:** Csak valódi számot írj, kitaláltat soha. A kerek szám („1000+”) gyengébb, mint a pontos („1 284”). A `(saját állítás)` jelölésű szám is valódi adat, és használd: a szakértő szájából, első személyben, a forrásával („a tavaszi próbacsoportban 12-ből 9-en végigcsinálták”), ne általános tényként.
 
 ## 14. CTA szakasz
 

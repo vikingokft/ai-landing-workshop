@@ -115,7 +115,8 @@ Az ikonok helyére A úton már a végleges hivatkozás kerül (`<img class="lp-
    ```
    Asztali (1440 px) és mobil (390 px) kép a hero-ról és az egész oldalról, az egész oldal szakasznyi szeletekben (`…-teljes-01.png` …). Ha a parancs nem talál böngészőt, nyisd meg az oldalt a saját böngésző-eszközöddel, ha van; ha nincs, kérd meg a felhasználót, hogy nézze meg ő.
 3. **Ikonlap:** az ikonokat külön is nézd meg (`references/ikonok.md`, „Ellenőrzés”).
-4. **Nézd meg a képeket** a `references/minoseg.md` öt kérdésével. Ha a meglévő oldalt vagy egy inspirációt követsz, vesd össze vele: ha az új oldal laposabb, egyformább vagy üresebb, javítsd. Egy javítókör, aztán új képernyőkép.
+4. **Mobilon külön is nézd meg** a 390 px-es képet: semmi nem lóg ki oldalt (díszítő kör, kép, csúszka), a hero címe és a gomb az első képernyőn van, és a hero-t nem takarja semmi. Ha a gomb lecsúszik, rövidítsd a hero-t, vagy tedd a díszítést a szöveg alá.
+5. **Nézd meg a képeket** a `references/minoseg.md` öt kérdésével. Ha a meglévő oldalt vagy egy inspirációt követsz, vesd össze vele: ha az új oldal laposabb, egyformább vagy üresebb, javítsd. Egy javítókör, aztán új képernyőkép.
 
 ### 6. Bemutatás
 
@@ -123,9 +124,10 @@ Nyisd meg az oldalt a böngészőben (ha nem tudod, mondd meg, hol van). Írd le
 
 ### 7. Véglegesítés
 
-1. **Feltöltési mappa:** másold az `index.html`-t és a `kepek/` mappát a `feltoltes/` mappába.
-2. **Köszönőoldal:** készíts `feltoltes/koszi.html`-t ugyanabban a stílusban (`references/technikai.md`). A szövege a `szoveg.md` köszönőoldal-blokkjából jön, ha van; ha nincs, írj két-három mondatot a márkahang szerint, és az átadásban mondd el, hogy ezt te írtad. Ellenőrizd (`ellenoriz --koszi`). Hogy az űrlap a köszönőoldalra visz, azt a főoldal gépi ellenőrzése már megnézte: böngészős űrlaptesztet, helyi szervert nem kell indítanod.
-3. **WordPress-változat:**
+1. **Képek tömörítése:** `python3 [skill-mappa]/scripts/landing.py kepek oldalak/<ajanlat>/landing/index.html`. A 300 kB feletti fotókat WebP-re (vagy macOS-en JPEG-re) alakítja, legfeljebb 2000 px szélesre, és a hivatkozást is átírja; az eredetik megmaradnak. Utána új képernyőkép: élesek-e a képek.
+2. **Feltöltési mappa:** másold az `index.html`-t és a `kepek/` mappából a ténylegesen hivatkozott fájlokat a `feltoltes/` mappába (a tömörítés előtti eredetiket ne).
+3. **Köszönőoldal:** készíts `feltoltes/koszi.html`-t ugyanabban a stílusban (`references/technikai.md`). A szövege a `szoveg.md` köszönőoldal-blokkjából jön, ha van; ha nincs, írj két-három mondatot a márkahang szerint, és az átadásban mondd el, hogy ezt te írtad. Ellenőrizd (`ellenoriz --koszi`). Hogy az űrlap a köszönőoldalra visz, azt a főoldal gépi ellenőrzése már megnézte: böngészős űrlaptesztet, helyi szervert nem kell indítanod.
+4. **WordPress-változat:**
    ```bash
    python3 [skill-mappa]/scripts/landing.py wp oldalak/<ajanlat>/landing/feltoltes/index.html -o oldalak/<ajanlat>/landing/wp-beillesztes.html
    ```
@@ -139,4 +141,5 @@ Mondd el röviden:
 - **tárhely (FTP):** a `feltoltes/` mappa *tartalmát* kell a tárhely célmappájába tölteni, nem magát a mappát; a mérőkódok (Meta Pixel, Google Tag) ilyenkor a kódba kerülnek, a `<head>`-ben jelölt helyre;
 - **WordPress:** amíg nincs megadva a Médiatár egy képcíme, a `wp-beillesztes.html`-ben a képek nem jelennek meg; ezt mondd ki. A lépések: (1) új oldal fejléc és lábléc nélküli sablonnal; (2) a `wp-kepek/` képeit egyszerre húzd be a Médiatárba; (3) másold ki az egyik feltöltött kép címét, és add meg (ezzel futtatod újra a `wp` parancsot, ha a címet még nem tudtad); (4) a `wp-beillesztes.html` teljes tartalmát másold egy Gutenberg Egyéni HTML blokkba vagy Elementor HTML-widgetbe. A mérőkódokat és a sütikezelést ilyenkor a WordPress adja;
 - **az űrlap még nem küld e-mailt:** beküldéskor csak a köszönőoldalra visz. Ahhoz, hogy az adatok meg is érkezzenek, egy űrlapkezelő, a levelezőrendszer beágyazó kódja vagy SMTP-beállítás kell; ezt a kódban egy megjegyzés jelöli;
-- **ami a felhasználóra vár:** a `[KITÖLTENDŐ]` helyek listája, a cserélendő képhelyek, és amit te írtál (például a köszönőoldal szövege).
+- **ami a felhasználóra vár:** a `[KITÖLTENDŐ]` helyek listája, a cserélendő képhelyek, és amit te írtál (például a köszönőoldal szövege). Ezek ide, az átadásba kerülnek, nem az oldalra: a látható szövegben ne maradjon a készítőnek szóló mondat („élesítés előtt…”, „pótolandó”);
+- **élesítés előtt kattints végig:** minden gomb és link vigyen valahova (űrlap, fizetés, adatkezelési tájékoztató), az oldal https-en fusson, és a link Messengerben vagy Facebookon megosztva mutassa a megosztási képet.

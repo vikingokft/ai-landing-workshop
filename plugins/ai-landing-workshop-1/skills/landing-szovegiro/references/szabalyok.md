@@ -10,7 +10,7 @@
 4. **A vásárló szavai.** A problémáknál és a vágyaknál a `celcsoport.md` „Az ő szavai” mondataiból indulj, a lehető legkevesebb átírással. Az `(elmesélt)` jelölésű mondatok (a szakértő foglalja össze, mit hall) idézőjelben is állhatnak, de keretezve („ezeket a mondatokat hallom”), név nélkül, és soha nem véleményként. A `(belső, nem jelenhet meg)` és a `(kizárva, a felhasználó kérésére)` jelölésű mondat semmilyen formában nem kerül az oldalra, átírva sem: csak a megértéshez olvasod.
 5. **Ugyanaz a tény mindenhol ugyanaz** (időpont, ár, hossz, létszám). Ha az `agy/` két fájlja ugyanarra mást mond, a pontosabbat használd, és szólj az átadásban. **Ami visszatérhet:** a fő ígéret és a következő lépés (időpont, gomb) a Heróban, a jellemzőknél és a CTA-ban is ott lehet, más szavakkal. **Ami nem:** a magyarázat, az érvelés és a példák; azok egyszer szerepelnek, a saját blokkjukban.
 6. **Az űrlap mellé** csak olyan ígéret kerül, ami az `agy/`-ban van (például „bármikor leiratkozhatsz” csak akkor, ha ott áll). Az adatkezelési tájékoztató linkje mindig ott van.
-7. **A jelölések nem kerülnek a szövegbe.** A `(saját állítás)`, `(elmesélt)`, `(kitalált, demó)` és hasonló jelölések az `agy/`-nak szólnak.
+7. **A jelölések nem kerülnek a szövegbe.** A `(saját állítás)`, `(elmesélt)`, `(kitalált, demó)` és hasonló jelölések az `agy/`-nak szólnak. A jelölés nem tiltás: a `(saját állítás)` adat (például a vállalkozó saját mérése, jegyzete) felhasználható, a szakértő szájából, első személyben és a forrás megnevezésével; csak tényként, forrás nélkül nem állhat. Ha egy bizonyítékokkal teli `agy/`-ból egyetlen szám sem kerül az oldalra, az hiba.
 
 ## A hang
 
